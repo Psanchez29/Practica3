@@ -17,52 +17,42 @@ knitr::opts_chunk$set(echo = TRUE)
 library(mltools)
 library(data.table)
 library(dplyr)
+library(tidyverse)
 
 ```
 
 [**CLASTERING DE DATOS**]{.underline}
 
-Utilizando un algoritmo de aprendizaje no supervisado, realizad un
-análisis de clústering con k-means para los datos del servidor. - Para
-este análisis debéis repetir la ejecución del modelado con distintos
-valores de k (número de clústeres) con al menos 2 valores diferentes de
-k. - A fin de retener algo de información sobre el recurso servido,
-generad una columna numérica derivada de esta con el número de
-caracteres de la URL servida.
-
-Pistas: - La función one_hot de la librería "mlops" permite convertir
-fácilmente una columna factor a distintas columnas numéricas que
-representan el valor de la variable factor de forma que pueda usarse en
-algoritmos que trabajan únicamente con valores numéricos.
+4. Contar el nùmero de caracteres de las URL
 
 ```{r Clastering de datos}
 
+epa_http_one_hot$nchar_x1 <- nchar(epa_http_one_hot$X1)
 
 
 
 ```
 
-## R Markdown
+4.1 Transformar el valor de estados (GET,HEAD,POST)
 
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
 
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
+```{r p2, echo=T, include=T}
 
-```{r cars}
-summary(cars)
+unique(epa_http_one_hot$X3)
+
+epa_http$X3 <- as.factor(epa_http$X3)
+epa_http_one_hot <- one_hot(as.data.table(epa_http), sparsifyNAs = TRUE)
+
 ```
 
-## Including Plots
+4.1 Transformar el valor de estados (200,302,304,404,403,501,500,400)
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r p2, echo=T, include=T}
+
+unique(epa_http$X6)
+
+epa_http$X6 <- as.factor(epa_http$X6)
+epa_http_one_hot <- one_hot(as.data.table(epa_http), sparsifyNAs = TRUE)
+
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
